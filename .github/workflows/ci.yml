@@ -1,0 +1,36 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify app structure
+        run: python -c "from main import app; print('App structure valid')"
+
+      - name: Check health endpoint
+        run: python -c "
+from main import app
+from fastapi.testclient import TestClient
+client = TestClient(app)
+response = client.get('/health')
+assert response.status_code == 200
+print('Health check passed!')
+"
