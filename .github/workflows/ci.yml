@@ -27,7 +27,6 @@ jobs:
 
       - name: Check health endpoint
         run: python -c "
-from main import app
 from fastapi.testclient import TestClient
 client = TestClient(app)
 response = client.get('/health')
