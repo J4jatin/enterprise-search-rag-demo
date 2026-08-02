@@ -5,3 +5,4 @@ scikit-learn
 numpy
 groq
 python-dotenv
+streamlit
